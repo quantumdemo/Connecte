@@ -1,0 +1,60 @@
+<!doctype html>
+<html>
+    <head>
+      <title>{% block title %}{% endblock %} - Connecte</title>
+      <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+      {% block head %}{% endblock %}
+    </head>
+    <body>
+        <nav class="navbar">
+            <a href="{{ url_for('main.index') }}" class="navbar-brand">Connecte</a>
+            <button class="navbar-toggle" id="navbarToggle">
+                &#9776; <!-- Hamburger Icon -->
+            </button>
+            <ul class="navbar-links" id="navbarLinks">
+                {% if current_user.is_anonymous %}
+                    <li><a href="{{ url_for('auth.login') }}">Login</a></li>
+                    <li><a href="{{ url_for('auth.register') }}">Sign Up</a></li>
+                {% else %}
+                    {% if current_user.is_admin %}
+                        <li><a href="{{ url_for('admin.dashboard') }}" style="color: #EF4444; font-weight: bold;">Admin</a></li>
+                    {% endif %}
+                    <li><a href="{{ url_for('main.dashboard') }}">Dashboard</a></li>
+                    <li><a href="{{ url_for('main.public_profile', username=current_user.username) }}">My Page</a></li>
+                    {% if current_user.account_type == 'Free' %}
+                        <li><a href="{{ url_for('main.pricing') }}" style="color: #42b72a; font-weight: bold;">Upgrade</a></li>
+                    {% endif %}
+                    <li><a href="{{ url_for('main.edit_profile') }}">Settings</a></li>
+                    <li><a href="{{ url_for('auth.logout') }}">Logout</a></li>
+                    <li>
+                        <a href="{{ url_for('main.edit_profile') }}">
+                            <img src="{{ url_for('static', filename='profile_pics/' + current_user.profile_picture) }}" alt="My Profile Picture" style="width: 30px; height: 30px; border-radius: 50%; object-fit: cover; vertical-align: middle;">
+                        </a>
+                    </li>
+                {% endif %}
+            </ul>
+        </nav>
+
+        {% if in_grace_period %}
+            <div class="grace-period-banner">
+                Your premium subscription has expired. You are in a 7-day grace period.
+                <a href="{{ url_for('main.pricing') }}">Renew now</a> to maintain access to premium features.
+                Your access will end on {{ grace_period_end.strftime('%Y-%m-%d') }}.
+            </div>
+        {% endif %}
+
+        <div class="container" {% if in_grace_period %}style="margin-top: 140px;"{% endif %}>
+            {% with messages = get_flashed_messages(with_categories=true) %}
+                {% if messages %}
+                    {% for category, message in messages %}
+                        <div class="alert alert-{{ category }}">{{ message }}</div>
+                    {% endfor %}
+                {% endif %}
+            {% endwith %}
+
+            {% block content %}{% endblock %}
+        </div>
+
+        <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+    </body>
+</html>

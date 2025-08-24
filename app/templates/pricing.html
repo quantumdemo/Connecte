@@ -1,0 +1,321 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <div class="pricing-header text-center">
+        <h1>Choose Your Plan</h1>
+        <p class="subtitle">Unlock more features and take your page to the next level</p>
+    </div>
+
+    <div class="pricing-container">
+        {% for plan in plans %}
+            <div class="pricing-card {% if plan.name == 'Free' %}free-plan{% elif plan.name == 'Premium' %}premium-plan{% endif %}">
+                {% if plan.name == 'Premium' %}
+                <div class="popular-badge">MOST POPULAR</div>
+                {% endif %}
+                
+                <div class="plan-header">
+                    <h2>{{ plan.name }}</h2>
+                    <div class="price">₦{{ "{:,.2f}".format(plan.price / 100) }}<span class="period">/month</span></div>
+                </div>
+                
+                <ul class="features-list">
+                    {% for feature in plan.features.split('\n') %}
+                        <li>
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <polyline points="20 6 9 17 4 12"></polyline>
+                            </svg>
+                            {{ feature }}
+                        </li>
+                    {% endfor %}
+                </ul>
+                
+                <div class="plan-footer">
+                    {% if plan.name == 'Free' %}
+                        <a href="#" class="btn current-plan">Your Current Plan</a>
+                    {% else %}
+                        <a href="{{ url_for('main.subscribe', plan_id=plan.id) }}" class="btn upgrade-btn">Upgrade Now</a>
+                    {% endif %}
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+
+    <div class="faq-section">
+        <h2>Frequently Asked Questions</h2>
+        <div class="faq-item">
+            <div class="faq-question">Can I switch plans anytime?</div>
+            <div class="faq-answer">Yes, you can upgrade or downgrade your plan at any time from your account settings.</div>
+        </div>
+        <div class="faq-item">
+            <div class="faq-question">Is there a contract or long-term commitment?</div>
+            <div class="faq-answer">No, all plans are month-to-month with no long-term commitment required.</div>
+        </div>
+        <div class="faq-item">
+            <div class="faq-question">What payment methods do you accept?</div>
+            <div class="faq-answer">We accept all major credit cards and debit cards.</div>
+        </div>
+    </div>
+
+    <style>
+        .pricing-header {
+            margin-bottom: 3rem;
+        }
+        
+        .pricing-header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+            color: var(--primary-color);
+        }
+        
+        .subtitle {
+            font-size: 1.2rem;
+            color: #6B7280;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        
+        .pricing-container {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            flex-wrap: wrap;
+            margin-bottom: 4rem;
+        }
+        
+        .pricing-card {
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            padding: 2.5rem 2rem;
+            width: 320px;
+            text-align: center;
+            background-color: var(--card-background);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+            position: relative;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .pricing-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+        }
+        
+        .premium-plan {
+            border: 2px solid var(--primary-color);
+            transform: scale(1.03);
+        }
+        
+        .popular-badge {
+            position: absolute;
+            top: -12px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--primary-color);
+            color: white;
+            padding: 0.5rem 1.5rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+        
+        .plan-header {
+            margin-bottom: 2rem;
+        }
+        
+        .plan-header h2 {
+            font-size: 1.8rem;
+            margin-bottom: 1rem;
+            color: var(--primary-color);
+        }
+        
+        .price {
+            font-size: 2.8rem;
+            font-weight: bold;
+            color: var(--primary-color);
+            line-height: 1;
+        }
+        
+        .period {
+            font-size: 1rem;
+            font-weight: normal;
+            color: #6B7280;
+        }
+        
+        .features-list {
+            list-style: none;
+            padding: 0;
+            margin: 2rem 0;
+            text-align: left;
+        }
+        
+        .features-list li {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1rem;
+            padding: 0.5rem 0;
+            border-bottom: 1px solid var(--border-color);
+        }
+        
+        .features-list li:last-child {
+            border-bottom: none;
+        }
+        
+        .features-list svg {
+            width: 20px;
+            height: 20px;
+            color: #10B981;
+            margin-right: 1rem;
+            flex-shrink: 0;
+        }
+        
+        .plan-footer {
+            margin-top: 2rem;
+        }
+        
+        .btn {
+            display: block;
+            padding: 1rem 2rem;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+        
+        .current-plan {
+            background-color: #D1D5DB;
+            color: #4B5563;
+            cursor: not-allowed;
+        }
+        
+        .upgrade-btn {
+            background-color: var(--primary-color);
+            color: white;
+        }
+        
+        .upgrade-btn:hover {
+            background-color: #4f46e5;
+            transform: translateY(-2px);
+        }
+        
+        .faq-section {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 2rem;
+            border-top: 1px solid var(--border-color);
+        }
+        
+        .faq-section h2 {
+            text-align: center;
+            margin-bottom: 2rem;
+            color: var(--primary-color);
+        }
+        
+        .faq-item {
+            margin-bottom: 1rem;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+        
+        .faq-question {
+            padding: 1.25rem;
+            background: var(--card-background);
+            font-weight: 600;
+            cursor: pointer;
+            position: relative;
+        }
+        
+        .faq-question::after {
+            content: '+';
+            position: absolute;
+            right: 1.25rem;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 1.2rem;
+        }
+        
+        .faq-answer {
+            padding: 0 1.25rem;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease, padding 0.3s ease;
+        }
+        
+        .faq-item.active .faq-question::after {
+            content: '-';
+        }
+        
+        .faq-item.active .faq-answer {
+            max-height: 200px;
+            padding: 1.25rem;
+        }
+        
+        /* Responsive adjustments */
+        @media (max-width: 1024px) {
+            .pricing-container {
+                gap: 1.5rem;
+            }
+            
+            .pricing-card {
+                width: 280px;
+                padding: 2rem 1.5rem;
+            }
+            
+            .price {
+                font-size: 2.5rem;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .pricing-container {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .pricing-card {
+                width: 100%;
+                max-width: 400px;
+            }
+            
+            .premium-plan {
+                transform: none;
+            }
+            
+            .pricing-header h1 {
+                font-size: 2rem;
+            }
+            
+            .subtitle {
+                font-size: 1.1rem;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .pricing-card {
+                padding: 1.5rem;
+            }
+            
+            .price {
+                font-size: 2.2rem;
+            }
+            
+            .features-list li {
+                font-size: 0.9rem;
+            }
+            
+            .btn {
+                padding: 0.875rem 1.5rem;
+            }
+        }
+    </style>
+
+    <script>
+        // Simple FAQ toggle functionality
+        document.querySelectorAll('.faq-question').forEach(question => {
+            question.addEventListener('click', () => {
+                const item = question.parentElement;
+                item.classList.toggle('active');
+            });
+        });
+    </script>
+{% endblock %}

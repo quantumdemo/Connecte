@@ -1,0 +1,531 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="dashboard-container">
+    <!-- Animated Welcome Section -->
+    <div class="welcome-section">
+        <div class="welcome-text">
+            <h1 class="welcome-animation">Hello, <span class="username">{{ current_user.username }}</span>! 🎉</h1>
+            <p class="subtitle-animation">It's great to see you again! Ready to create something amazing today?</p>
+        </div>
+        <div class="welcome-illustration">
+            <div class="floating-icon">✨</div>
+            <div class="floating-icon">🚀</div>
+            <div class="floating-icon">🌟</div>
+        </div>
+    </div>
+
+    <!-- Stats Cards -->
+    <div class="stats-grid"
+         data-profile-views="{{ profile_views or 0 }}"
+         data-links-created="{{ links_created or 0 }}"
+         data-link-clicks="{{ link_clicks or 0 }}"
+         data-days-streak="{{ days_streak or 0 }}">
+        <div class="stat-card slide-in-left">
+            <div class="stat-icon">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+                    <circle cx="9" cy="7" r="4"></circle>
+                    <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+                    <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+                </svg>
+            </div>
+            <div class="stat-content">
+                <h3>Profile Views</h3>
+                <p class="stat-number" id="counter-1">0</p>
+                <p class="stat-change positive">+12% from last week</p>
+            </div>
+        </div>
+
+        <div class="stat-card slide-in-right">
+            <div class="stat-icon">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                    <polyline points="14 2 14 8 20 8"></polyline>
+                    <line x1="16" y1="13" x2="8" y2="13"></line>
+                    <line x1="16" y1="17" x2="8" y2="17"></line>
+                    <polyline points="10 9 9 9 8 9"></polyline>
+                </svg>
+            </div>
+            <div class="stat-content">
+                <h3>Links Created</h3>
+                <p class="stat-number" id="counter-2">0</p>
+                <p class="stat-change positive">+5 this month</p>
+            </div>
+        </div>
+
+        <div class="stat-card slide-in-left">
+            <div class="stat-icon">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M22 12h-4l-3 9L9 3l-3 9H2"></path>
+                </svg>
+            </div>
+            <div class="stat-content">
+                <h3>Link Clicks</h3>
+                <p class="stat-number" id="counter-3">0</p>
+                <p class="stat-change positive">+24% from last month</p>
+            </div>
+        </div>
+
+        <div class="stat-card slide-in-right">
+            <div class="stat-icon">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="12" cy="12" r="10"></circle>
+                    <line x1="12" y1="8" x2="12" y2="12"></line>
+                    <line x1="12" y1="16" x2="12.01" y2="16"></line>
+                </svg>
+            </div>
+            <div class="stat-content">
+                <h3>Days Streak</h3>
+                <p class="stat-number" id="counter-4">0</p>
+                <p class="stat-change positive">Keep it up!</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Quick Actions -->
+    <div class="quick-actions-section">
+        <h2 class="bounce-in">What would you like to do today?</h2>
+        <div class="action-grid">
+            <a href="{{ url_for('main.dashboard') }}" class="action-card pulse">
+                <div class="action-icon">🔗</div>
+                <h3>Create Link</h3>
+                <p>Shorten a new URL</p>
+            </a>
+            <a href="{{ url_for('main.dashboard') }}" class="action-card pulse">
+                <div class="action-icon">📊</div>
+                <h3>View Analytics</h3>
+                <p>Check your stats</p>
+            </a>
+            <a href="{{ url_for('main.edit_profile') }}" class="action-card pulse">
+                <div class="action-icon">🎨</div>
+                <h3>Customize</h3>
+                <p>Personalize your profile</p>
+            </a>
+            {% if current_user.account_type == 'Free' %}
+            <a href="{{ url_for('main.pricing') }}" class="action-card pulse">
+                <div class="action-icon">🚀</div>
+                <h3>Upgrade</h3>
+                <p>Unlock premium features</p>
+            </a>
+            {% endif %}
+        </div>
+    </div>
+
+    <!-- Daily Motivation -->
+    <div class="motivation-section">
+        <div class="motivation-card">
+            <div class="motivation-text">
+                <h2>Daily Motivation 💪</h2>
+                <p id="motivation-quote">"Your links are doing great! Keep sharing and growing your audience."</p>
+            </div>
+            <div class="motivation-image">🌈</div>
+        </div>
+    </div>
+</div>
+
+<style>
+     body {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+        }
+        
+    @keyframes fadeIn {
+        from { opacity: 0; }
+        to { opacity: 1; }
+    }
+
+    @keyframes slideInFromLeft {
+        from { transform: translateX(-50px); opacity: 0; }
+        to { transform: translateX(0); opacity: 1; }
+    }
+
+    @keyframes slideInFromRight {
+        from { transform: translateX(50px); opacity: 0; }
+        to { transform: translateX(0); opacity: 1; }
+    }
+
+    @keyframes bounce {
+        0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+        40% { transform: translateY(-20px); }
+        60% { transform: translateY(-10px); }
+    }
+
+    @keyframes pulse {
+        0% { transform: scale(1); }
+        50% { transform: scale(1.05); }
+        100% { transform: scale(1); }
+    }
+
+    @keyframes float {
+        0% { transform: translateY(0px); }
+        50% { transform: translateY(-10px); }
+        100% { transform: translateY(0px); }
+    }
+
+    @keyframes colorChange {
+        0% { color: #4f46e5; }
+        25% { color: #ec4899; }
+        50% { color: #f59e0b; }
+        75% { color: #10b981; }
+        100% { color: #4f46e5; }
+    }
+
+    .dashboard-container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 2rem;
+        animation: fadeIn 1s ease-in;
+    }
+
+    .welcome-section {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 3rem;
+        background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
+        padding: 2rem;
+        border-radius: 16px;
+        color: white;
+        box-shadow: 0 10px 30px rgba(79, 70, 229, 0.3);
+    }
+
+    .welcome-animation {
+        font-size: 2.5rem;
+        margin-bottom: 0.5rem;
+        animation: bounce 1.5s;
+    }
+
+    .username {
+        font-weight: 800;
+        background: linear-gradient(45deg, #fde68a, #fef3c7, #f59e0b);
+        background-clip: text;  
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        animation: colorChange 5s infinite;
+    }
+
+    .subtitle-animation {
+        font-size: 1.2rem;
+        opacity: 0;
+        animation: fadeIn 1s ease-in 0.5s forwards;
+    }
+
+    .welcome-illustration {
+        position: relative;
+    }
+
+    .floating-icon {
+        font-size: 2rem;
+        position: absolute;
+        animation: float 3s ease-in-out infinite;
+    }
+
+    .floating-icon:nth-child(1) {
+        top: -20px;
+        right: 10px;
+        animation-delay: 0s;
+    }
+
+    .floating-icon:nth-child(2) {
+        top: 10px;
+        right: -10px;
+        animation-delay: 1s;
+    }
+
+    .floating-icon:nth-child(3) {
+        top: 40px;
+        right: 20px;
+        animation-delay: 2s;
+    }
+
+    .stats-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 1.5rem;
+        margin-bottom: 3rem;
+    }
+
+    .stat-card {
+        background-color: var(--card-background);
+        border-radius: 16px;
+        padding: 1.5rem;
+        display: flex;
+        align-items: center;
+        border: 1px solid var(--border-color);
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        opacity: 0;
+    }
+
+    .stat-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+    }
+
+    .slide-in-left {
+        animation: slideInFromLeft 0.8s ease-out forwards;
+    }
+
+    .slide-in-right {
+        animation: slideInFromRight 0.8s ease-out forwards;
+    }
+
+    .stat-card:nth-child(1) { animation-delay: 0.2s; }
+    .stat-card:nth-child(2) { animation-delay: 0.4s; }
+    .stat-card:nth-child(3) { animation-delay: 0.6s; }
+    .stat-card:nth-child(4) { animation-delay: 0.8s; }
+
+    .stat-icon {
+        width: 60px;
+        height: 60px;
+        border-radius: 16px;
+        background: rgba(79, 70, 229, 0.1);
+        color: #4f46e5;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-right: 1rem;
+        flex-shrink: 0;
+    }
+
+    .stat-icon svg {
+        width: 28px;
+        height: 28px;
+    }
+
+    .stat-content h3 {
+        margin: 0 0 0.5rem 0;
+        font-size: 0.9rem;
+        font-weight: 600;
+        color: #6b7280;
+    }
+
+    .stat-number {
+        margin: 0 0 0.25rem 0;
+        font-size: 1.8rem;
+        font-weight: 800;
+        color: var(--primary-color);
+    }
+
+    .stat-change {
+        margin: 0;
+        font-size: 0.8rem;
+        font-weight: 600;
+    }
+
+    .stat-change.positive {
+        color: #10b981;
+    }
+
+    .quick-actions-section {
+        margin-bottom: 3rem;
+        visibility: visible !important;
+        opacity: 1 !important;
+        padding: 1.5rem;
+        background-color: #f8fafc;
+        border-radius: 12px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+    }
+
+    .bounce-in {
+        text-align: center;
+        margin-bottom: 2rem;
+        animation: bounce 1s;
+        color: var(--primary-color);
+    }
+
+    .action-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 1.5rem;
+    }
+
+    .action-card {
+        background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+        border-radius: 16px;
+        padding: 1.5rem;
+        text-align: center;
+        text-decoration: none;
+        color: #334155;
+        transition: all 0.3s ease;
+        border: 1px solid #e2e8f0;
+        visibility: visible !important;
+        opacity: 1 !important;
+        animation: fadeIn 0.8s ease-out forwards;
+    }
+
+    .action-card:nth-child(1) { animation-delay: 0.3s; }
+    .action-card:nth-child(2) { animation-delay: 0.5s; }
+    .action-card:nth-child(3) { animation-delay: 0.7s; }
+    .action-card:nth-child(4) { animation-delay: 0.9s; }
+
+    .action-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+        background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
+        color: white;
+    }
+
+    .action-card:hover .action-icon {
+        transform: scale(1.2);
+    }
+
+    .pulse {
+        animation: pulse 2s infinite;
+    }
+
+    .action-icon {
+        font-size: 2.5rem;
+        margin-bottom: 1rem;
+        transition: transform 0.3s ease;
+    }
+
+    .action-card h3 {
+        margin: 0 0 0.5rem 0;
+        font-size: 1.1rem;
+    }
+
+    .action-card p {
+        margin: 0;
+        font-size: 0.9rem;
+        opacity: 0.8;
+    }
+
+    .motivation-section {
+        margin-bottom: 2rem;
+    }
+
+    .motivation-card {
+        background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+        border-radius: 16px;
+        padding: 2rem;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+        animation: fadeIn 1s ease-in 1.5s forwards;
+        opacity: 0;
+    }
+
+    .motivation-text h2 {
+        margin: 0 0 1rem 0;
+        color: #b45309;
+    }
+
+    .motivation-text p {
+        margin: 0;
+        font-size: 1.1rem;
+        color: #78350f;
+        font-style: italic;
+    }
+
+    .motivation-image {
+        font-size: 4rem;
+    }
+
+    /* Responsive adjustments */
+    @media (max-width: 768px) {
+        .dashboard-container {
+            padding: 1rem;
+        }
+
+        .welcome-section {
+            flex-direction: column;
+            text-align: center;
+            padding: 1.5rem;
+        }
+
+        .welcome-illustration {
+            margin-top: 1.5rem;
+        }
+
+        .stats-grid {
+            grid-template-columns: 1fr;
+        }
+
+        .action-grid {
+            grid-template-columns: 1fr 1fr;
+        }
+
+        .motivation-card {
+            flex-direction: column;
+            text-align: center;
+        }
+
+        .motivation-image {
+            margin-top: 1.5rem;
+        }
+    }
+
+    @media (max-width: 480px) {
+        .welcome-animation {
+            font-size: 2rem;
+        }
+
+        .action-grid {
+            grid-template-columns: 1fr;
+        }
+
+        .stat-card {
+            flex-direction: column;
+            text-align: center;
+        }
+
+        .stat-icon {
+            margin-right: 0;
+            margin-bottom: 1rem;
+        }
+    }
+</style>
+
+<script>
+    // Counter animation for stats
+    function animateCounter(elementId, finalValue, duration) {
+        let startTime = null;
+        const element = document.getElementById(elementId);
+        const startValue = 0;
+
+        function updateCounter(timestamp) {
+            if (!startTime) startTime = timestamp;
+            const progress = Math.min((timestamp - startTime) / duration, 1);
+            const currentValue = Math.floor(progress * finalValue);
+            element.textContent = currentValue.toLocaleString();
+
+            if (progress < 1) {
+                requestAnimationFrame(updateCounter);
+            } else {
+                element.textContent = finalValue.toLocaleString();
+            }
+        }
+
+        requestAnimationFrame(updateCounter);
+    }
+
+    // Start counter animations when page loads
+    document.addEventListener('DOMContentLoaded', function() {
+        const statsGrid = document.querySelector('.stats-grid');
+        const profileViews = parseInt(statsGrid.dataset.profileViews, 10);
+        const linksCreated = parseInt(statsGrid.dataset.linksCreated, 10);
+        const linkClicks = parseInt(statsGrid.dataset.linkClicks, 10);
+        const daysStreak = parseInt(statsGrid.dataset.daysStreak, 10);
+
+        animateCounter('counter-1', profileViews, 2000);
+        animateCounter('counter-2', linksCreated, 2000);
+        animateCounter('counter-3', linkClicks, 2000);
+        animateCounter('counter-4', daysStreak, 2000);
+
+        // Array of motivational quotes
+        const quotes = [
+            "Your links are doing great! Keep sharing and growing your audience.",
+            "Every click brings you closer to your goals. Keep going!",
+            "Success is the sum of small efforts, repeated day in and day out.",
+            "Your creativity is your advantage. Use it to stand out!",
+            "Today's accomplishments were yesterday's impossibilities."
+        ];
+
+        // Select a random quote
+        const randomQuote = quotes[Math.floor(Math.random() * quotes.length)];
+        document.getElementById('motivation-quote').textContent = `"${randomQuote}"`;
+    });
+</script>
+{% endblock %}

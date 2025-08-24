@@ -1,0 +1,50 @@
+{% extends "admin/base.html" %}
+
+{% block title %}Plan Management{% endblock %}
+
+{% block content %}
+    <div style="display: flex; justify-content: space-between; align-items: center;">
+        <h1>Plan Management</h1>
+        <a href="{{ url_for('admin.create_plan') }}" class="btn">Create New Plan</a>
+    </div>
+    <hr>
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            {% for category, message in messages %}
+                <div class="alert alert-{{ category }}">{{ message }}</div>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+
+    <div class="table-container">
+        <table class="user-table">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Price (Kobo)</th>
+                    <th>Paystack Code</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for plan in plans %}
+                <tr>
+                    <td>{{ plan.id }}</td>
+                    <td>{{ plan.name }}</td>
+                    <td>{{ plan.price }}</td>
+                    <td>{{ plan.paystack_plan_code }}</td>
+                    <td>
+                        <a href="{{ url_for('admin.edit_plan', plan_id=plan.id) }}" class="btn-sm">Edit</a>
+                        <form action="{{ url_for('admin.delete_plan', plan_id=plan.id) }}" method="post" style="display: inline;" onsubmit="return confirm('Are you sure? Deleting a plan is irreversible.');">
+                            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
+                            <input type="submit" value="Delete" class="btn-sm" style="background-color: #EF4444; color: white;">
+                        </form>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% endblock %}
