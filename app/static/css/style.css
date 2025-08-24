@@ -94,6 +94,9 @@ body {
     .navbar-toggle {
         display: block;
     }
+    #navbar-toggle {
+        display: block;
+    }
 }
 
 /* Main Content Container */
