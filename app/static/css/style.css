@@ -68,6 +68,11 @@ body {
     border: none;
     cursor: pointer;
 }
+@media (min-width: 769px) {
+    .navbar-toggle {
+        display: none;
+    }
+}
 
 /* Responsive Hamburger Menu */
 @media (max-width: 768px) {
@@ -94,9 +99,7 @@ body {
     .navbar-toggle {
         display: block;
     }
-    #navbarToggle {
-        display: block;
-    }
+    
 }
 
 /* Main Content Container */
