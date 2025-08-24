@@ -1,0 +1,40 @@
+services:
+  # PostgreSQL Database Service
+  - type: pserv
+    name: connecte-db
+    plan: free
+    databaseName: connecte
+    user: connecte_user
+    postgresMajorVersion: 14
+
+  # Flask Web Service
+  - type: web
+    name: connecte
+    plan: free
+    runtime: python
+    buildCommand: "pip install -r requirements.txt"
+    startCommand: "flask db upgrade || true && gunicorn run:app"
+    envVars:
+      - key: SECRET_KEY
+        generateValue: true # Render will generate a secure secret key
+      - key: DATABASE_URL
+        fromService:
+          type: pserv
+          name: connecte-db
+          property: connectionString
+      - key: PAYSTACK_SECRET_KEY
+        sync: false # Set manually in Render dashboard
+      - key: PAYSTACK_PUBLIC_KEY
+        sync: false # Set manually in Render dashboard
+      - key: MAIL_SERVER
+        sync: false # Set manually in Render dashboard
+      - key: MAIL_PORT
+        sync: false # Set manually in Render dashboard
+      - key: MAIL_USE_TLS
+        sync: false # Set manually in Render dashboard
+      - key: MAIL_USERNAME
+        sync: false # Set manually in Render dashboard
+      - key: MAIL_PASSWORD
+        sync: false # Set manually in Render dashboard
+      - key: FLASK_APP
+        value: run.py
