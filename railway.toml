@@ -1,0 +1,10 @@
+[build]
+builder = "NIXPACKS"
+
+[deploy]
+# Run your app with gunicorn, pointing to run:create_app()
+startCommand = "gunicorn 'run:create_app()' --bind 0.0.0.0:$PORT"
+
+# Run migrations automatically after each deploy
+[[deploy.hooks]]
+command = "flask db upgrade"
