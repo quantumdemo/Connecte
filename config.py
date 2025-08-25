@@ -4,23 +4,39 @@ from dotenv import load_dotenv
 basedir = os.path.abspath(os.path.dirname(__file__))
 load_dotenv(os.path.join(basedir, '.env'))
 
+
 class Config:
     SECRET_KEY = os.environ.get('SECRET_KEY') or 'you-will-never-guess'
 
+    # Database configuration
     if os.environ.get("RAILWAY_ENVIRONMENT"):
-        # Running on Railway with PostgreSQL
-        SQLALCHEMY_DATABASE_URI = (
-            f"postgresql://{os.environ['PGUSER']}:{os.environ['PGPASSWORD']}"
-            f"@{os.environ['PGHOST']}:{os.environ['PGPORT']}/{os.environ['PGDATABASE']}"
-        )
+        # Try to build PostgreSQL URI from Railway variables
+        pg_user = os.environ.get("PGUSER")
+        pg_pass = os.environ.get("PGPASSWORD")
+        pg_host = os.environ.get("PGHOST")
+        pg_port = os.environ.get("PGPORT")
+        pg_db   = os.environ.get("PGDATABASE")
+
+        if all([pg_user, pg_pass, pg_host, pg_port, pg_db]):
+            SQLALCHEMY_DATABASE_URI = (
+                f"postgresql://{pg_user}:{pg_pass}@{pg_host}:{pg_port}/{pg_db}"
+            )
+        else:
+            # Railway environment exists but vars not linked → fallback
+            print("⚠️ WARNING: Railway Postgres variables not found. Using SQLite instead.")
+            SQLALCHEMY_DATABASE_URI = "sqlite:///" + os.path.join(basedir, "app.db")
     else:
-        # Local development fallback (SQLite)
+        # Local development fallback
         SQLALCHEMY_DATABASE_URI = "sqlite:///" + os.path.join(basedir, "app.db")
 
     SQLALCHEMY_TRACK_MODIFICATIONS = False
     TESTING = False
+
+    # Paystack
     PAYSTACK_SECRET_KEY = os.environ.get('PAYSTACK_SECRET_KEY')
     PAYSTACK_PUBLIC_KEY = os.environ.get('PAYSTACK_PUBLIC_KEY')
+
+    # File uploads
     UPLOAD_FOLDER = os.path.join(basedir, 'app', 'static', 'profile_pics')
 
     # Email configuration
