@@ -49,7 +49,7 @@ def redirect_to_url(link_id):
 def dashboard():
     form = LinkForm()
     if form.validate_on_submit():
-        if current_user.account_type == 'Free' and current_user.links.count() >= 5:
+        if current_user.account_type == 'Free' and current_user.links.count() >= 2:
             flash('You have reached the maximum number of links for a free account. Please upgrade to add more.')
         else:
             link = Link(title=form.title.data, url=form.url.data, author=current_user)
@@ -61,7 +61,7 @@ def dashboard():
     total_clicks = sum(link.clicks.count() for link in links)
 
     show_form = True
-    if current_user.account_type == 'Free' and len(links) >= 5:
+    if current_user.account_type == 'Free' and len(links) >= 2:
         show_form = False
 
     return render_template('dashboard.html', user=current_user, links=links, form=form, total_clicks=total_clicks, show_form=show_form)
