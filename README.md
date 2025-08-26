@@ -17,7 +17,7 @@ This application is built with Flask and includes features like user accounts, l
 - **Subscription Tiers:** The application supports `free` and `premium` user accounts.
 - **Paystack Integration:** A complete subscription workflow powered by Paystack to allow users to upgrade to the premium plan.
 - **Premium Themes:** Premium users can choose from exclusive themes (e.g., Dark Mode) to customize their public profile page.
-- **Link Limitations:** Free users are limited to 5 links, while premium users can add unlimited links.
+- **Link Limitations:** Free users are limited to 2 links, while premium users can add unlimited links.
 - **Advanced Analytics:** Premium users get access to more detailed click analytics, including the visitor's IP address, user agent, and referrer.
 
 ## Tech Stack
