@@ -46,7 +46,7 @@
     </div>
     {% else %}
     <h3>Add a new link</h3>
-    <p>You have reached the maximum of 5 links for a free account. Please upgrade to add more.</p>
+    <p>You have reached the maximum of 2 links for a free account. Please <a href="{{ url_for('main.pricing') }}">upgrade</a> to add more.</p>
     {% endif %}
 
     <h3>Your links</h3>
