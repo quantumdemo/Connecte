@@ -9,8 +9,8 @@ from app.models import User
 def index():
     links_created = current_user.links.count()
     link_clicks = sum(link.clicks.count() for link in current_user.links)
-    profile_views = 0  # Placeholder for now
-    days_streak = 0    # Placeholder for now
+    profile_views = current_user.profile_views
+    days_streak = current_user.login_streak
     return render_template('index.html', title='Home',
                            links_created=links_created,
                            link_clicks=link_clicks,
@@ -28,6 +28,12 @@ from datetime import datetime, timedelta
 @bp.route('/<username>')
 def public_profile(username):
     user = User.query.filter_by(username=username).first_or_404()
+
+    # Increment profile views, but not for the owner viewing their own profile
+    if not current_user.is_authenticated or current_user.id != user.id:
+        user.profile_views = (user.profile_views or 0) + 1
+        db.session.commit()
+
     links = user.links.order_by(Link.timestamp.desc()).all()
     return render_template('public_profile.html', user=user, links=links)
 

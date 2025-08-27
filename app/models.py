@@ -29,6 +29,9 @@ class User(UserMixin, db.Model):
     is_admin = db.Column(db.Boolean, nullable=False, default=False)
     created_at = db.Column(db.DateTime, index=True, default=datetime.utcnow)
     subscriptions = db.relationship('Subscription', backref='subscriber', lazy='dynamic', cascade="all, delete-orphan")
+    profile_views = db.Column(db.Integer, default=0)
+    last_login = db.Column(db.DateTime, nullable=True)
+    login_streak = db.Column(db.Integer, default=0)
 
     def set_password(self, password):
         self.password_hash = generate_password_hash(password)

@@ -18,6 +18,22 @@ def login():
             flash('Invalid username or password')
             return redirect(url_for('auth.login'))
         login_user(user, remember=form.remember_me.data)
+
+        # --- Login Streak Logic ---
+        from datetime import date, timedelta, datetime
+        today = date.today()
+        if user.last_login:
+            last_login_date = user.last_login.date()
+            if last_login_date == today - timedelta(days=1):
+                user.login_streak = (user.login_streak or 0) + 1
+            elif last_login_date != today:
+                user.login_streak = 1
+        else:
+            user.login_streak = 1
+        user.last_login = datetime.utcnow()
+        db.session.commit()
+        # --- End Login Streak Logic ---
+
         next_page = request.args.get('next')
         if not next_page or url_parse(next_page).netloc != '':
             next_page = url_for('main.index')
