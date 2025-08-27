@@ -140,7 +140,8 @@ def subscribe(plan_id):
         email=current_user.email,
         amount=plan.price,
         plan=plan.paystack_plan_code,
-        callback_url=url_for('main.dashboard', _external=True)
+        callback_url=url_for('main.dashboard', _external=True),
+        channels=['card', 'bank', 'ussd', 'qr']
     )
 
     if transaction['status']:
