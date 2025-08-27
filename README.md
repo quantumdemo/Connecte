@@ -42,7 +42,7 @@ Follow these steps to get the LinkMe application running on your local machine.
 ### 2. Clone the Repository
 ```bash
 git clone <repository-url>
-cd linkme
+cd Connecte
 ```
 
 ### 3. Create a Virtual Environment
