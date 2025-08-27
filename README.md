@@ -1,6 +1,6 @@
 # Connecte: Link-in-Bio + Analytics (Micro SaaS)
 
-LinkMe is a powerful, open-source Link-in-Bio solution designed for creators. It allows you to build a personalized and easily-customizable page that houses all the important links you want to share with your audience. It's a perfect tool for social media bios, allowing you to drive traffic to your other content, products, and platforms.
+Connecte is a powerful, open-source Link-in-Bio solution designed for creators. It allows you to build a personalized and easily-customizable page that houses all the important links you want to share with your audience. It's a perfect tool for social media bios, allowing you to drive traffic to your other content, products, and platforms.
 
 This application is built with Flask and includes features like user accounts, link management, click tracking analytics, and premium subscription features powered by Paystack.
 
@@ -98,7 +98,7 @@ pytest --cov=app --cov-report=term-missing
 
 ## Deployment
 
-To deploy the LinkMe application to a production environment, follow these general steps:
+To deploy the Connecte application to a production environment, follow these general steps:
 
 1.  **Choose a Hosting Provider:** Platforms like Heroku, DigitalOcean, AWS, or PythonAnywhere are good choices.
 2.  **Use a Production WSGI Server:** The Flask development server is not suitable for production. Use a robust WSGI server like Gunicorn (which is included in `requirements.txt`).
