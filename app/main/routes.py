@@ -224,20 +224,18 @@ def delete_link(link_id):
 def cancel_subscription():
     sub = current_user.subscriptions.filter_by(status='active').order_by(Subscription.end_date.desc()).first()
     if sub:
-        # In a real app, you would call the Paystack API here to disable the subscription.
-        # For example:
-        # response = PaystackSubscription.disable(code=sub.paystack_subscription_code, token='<email_token_from_paystack>')
-        # if response['status']:
-        #     sub.status = 'cancelled'
-        #     db.session.commit()
-        #     flash('Your subscription has been cancelled and will not renew.')
-        # else:
-        #     flash('Could not cancel subscription with payment provider. Please contact support.')
-
-        # For this project, we'll just update our local status.
-        sub.status = 'cancelled'
-        db.session.commit()
-        flash('Your subscription has been cancelled. You will retain premium access until the end of your current billing period.')
+        # Call the Paystack API to disable the subscription.
+        # The 'code' is the subscription code from Paystack.
+        response = PaystackSubscription.disable(code=sub.paystack_subscription_code)
+        
+        if response['status']:
+            sub.status = 'cancelled'
+            db.session.commit()
+            flash('Your subscription has been cancelled successfully and will not renew.')
+        else:
+            # Log the error and inform the user
+            current_app.logger.error(f"Paystack cancellation failed for user {current_user.id}: {response.get('message')}")
+            flash('Could not cancel your subscription with the payment provider at this time. Please contact support.')    
     else:
         flash('No active subscription found to cancel.')
 
