@@ -1,0 +1,33 @@
+/* Light Theme (Premium) */
+body {
+    font-family: sans-serif;
+    background-color: #ffffff;
+    color: #000000;
+    margin-top: 60px;
+}
+.profile-card {
+    max-width: 680px;
+    margin: 50px auto;
+    padding: 20px;
+}
+.link-button {
+    display: block;
+    background-color: #000000;
+    color: #ffffff;
+    padding: 15px;
+    margin: 10px 0;
+    text-align: center;
+    text-decoration: none;
+    border-radius: 6px;
+    font-weight: bold;
+    border: 1px solid #000000;
+}
+.payment-button button {
+    background-color: #000000;
+    color: #ffffff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: bold;
+}
