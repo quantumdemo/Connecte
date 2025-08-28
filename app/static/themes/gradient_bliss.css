@@ -1,0 +1,64 @@
+/* Gradient Bliss Theme (Premium) */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap');
+
+body {
+    font-family: 'Poppins', sans-serif;
+    color: #FFFFFF;
+    background: linear-gradient(45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
+    background-size: 400% 400%;
+    animation: gradient 15s ease infinite;
+}
+
+@keyframes gradient {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+.profile-card {
+    background-color: rgba(255, 255, 255, 0.15);
+    border-radius: 15px;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.1);
+    padding: 2rem;
+    text-align: center;
+}
+
+.link-button {
+    display: block;
+    background-color: rgba(255, 255, 255, 0.9);
+    color: #333333;
+    padding: 1rem;
+    margin: 1rem 0;
+    text-align: center;
+    text-decoration: none;
+    border-radius: 50px;
+    font-weight: 600;
+    font-size: 1rem;
+    border: none;
+    transition: transform 0.2s ease-out;
+}
+
+.link-button:hover {
+    transform: scale(1.05);
+}
+
+.payment-button button {
+    display: inline-block;
+    padding: 0.75rem 1.5rem;
+    background-color: #FFFFFF;
+    color: #333333;
+    border: none;
+    border-radius: 50px;
+    cursor: pointer;
+    font-weight: bold;
+    text-align: center;
+    text-decoration: none;
+    transition: transform 0.2s ease-out;
+}
+
+.payment-button button:hover {
+    transform: scale(1.05);
+}

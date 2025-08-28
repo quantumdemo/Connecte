@@ -1,0 +1,59 @@
+/* Minimalist Monochrome Theme (Premium) */
+@import url('https://fonts.googleapis.com/css2?family=Lora:wght@400;700&family=Roboto:wght@400;700&display=swap');
+
+body {
+    font-family: 'Roboto', sans-serif;
+    background-color: #FFFFFF;
+    color: #111111;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-family: 'Lora', serif;
+}
+
+.profile-card {
+    background-color: #FFFFFF;
+    border: 2px solid #111111;
+    border-radius: 0;
+    box-shadow: 8px 8px 0px #111111;
+    padding: 2rem;
+    text-align: center;
+}
+
+.link-button {
+    display: block;
+    background-color: #FFFFFF;
+    color: #111111;
+    padding: 1rem;
+    margin: 1rem 0;
+    text-align: center;
+    text-decoration: none;
+    border-radius: 0;
+    font-weight: 500;
+    font-size: 1rem;
+    border: 2px solid #111111;
+    transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out;
+}
+
+.link-button:hover {
+    background-color: #111111;
+    color: #FFFFFF;
+}
+
+.payment-button button {
+    display: inline-block;
+    padding: 0.75rem 1.5rem;
+    background-color: #111111;
+    color: #FFFFFF;
+    border: none;
+    border-radius: 0;
+    cursor: pointer;
+    font-weight: bold;
+    text-align: center;
+    text-decoration: none;
+    transition: background-color 0.3s ease;
+}
+
+.payment-button button:hover {
+    background-color: #444444;
+}
