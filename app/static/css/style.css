@@ -196,3 +196,33 @@ body {
     z-index: 999;
     border-bottom: 1px solid #FDE68A;
 }
+
+/* Profile Initials */
+.profile-initials-large {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    background-color: #eee;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: auto;
+    margin-bottom: 20px;
+    font-size: 50px;
+    color: #333;
+    font-weight: bold;
+}
+
+.profile-initials-small {
+    display: inline-block;
+    vertical-align: middle;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    background-color: #eee;
+    text-align: center;
+    line-height: 30px;
+    font-size: 12px;
+    color: #333;
+    font-weight: bold;
+}

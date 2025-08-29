@@ -71,6 +71,15 @@ class User(UserMixin, db.Model):
             return self.active_subscription.plan.name
         return 'Free'
 
+    def get_initials(self):
+        if not self.username:
+            return ""
+        name_parts = self.username.split()
+        if len(name_parts) > 1:
+            return (name_parts[0][0] + name_parts[-1][0]).upper()
+        else:
+            return self.username[0].upper()
+
     def __repr__(self):
         return '<User {}>'.format(self.username)
 
