@@ -1,6 +1,6 @@
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, BooleanField, SubmitField
-from wtforms.validators import DataRequired, Email, EqualTo, ValidationError, URL
+from wtforms.validators import DataRequired, Email, EqualTo, ValidationError, URL, Optional
 from app.models import User
 
 
@@ -43,7 +43,7 @@ class LinkForm(FlaskForm):
 class EditProfileForm(FlaskForm):
     username = StringField('Username', validators=[DataRequired()])
     bio = TextAreaField('About me', validators=[Length(min=0, max=140)])
-    payment_link = StringField('Payment Link (e.g., Paystack, Flutterwave)')
+    payment_link = StringField('Payment Link (e.g., Paystack, Flutterwave)', validators=[Optional(), URL(message='Please enter a valid URL.')])
     theme = SelectField('Theme', choices=[
         ('default.css', 'Default'),
         ('dark.css', 'Dark (Premium)'),
