@@ -1,6 +1,6 @@
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, BooleanField, SubmitField
-from wtforms.validators import DataRequired, Email, EqualTo, ValidationError
+from wtforms.validators import DataRequired, Email, EqualTo, ValidationError, URL
 from app.models import User
 
 
@@ -36,7 +36,7 @@ from flask_wtf.file import FileField, FileAllowed
 
 class LinkForm(FlaskForm):
     title = StringField('Title', validators=[DataRequired()])
-    url = StringField('URL', validators=[DataRequired(), DataRequired(message='Please enter a valid URL.')])
+    url = StringField('URL', validators=[DataRequired(), URL(message='Please enter a valid URL.')])
     submit = SubmitField('Add Link')
 
 
