@@ -30,7 +30,13 @@
                     <li><a href="{{ url_for('auth.logout') }}">Logout</a></li>
                     <li>
                         <a href="{{ url_for('main.edit_profile') }}">
-                            <img src="{{ url_for('static', filename='profile_pics/' + current_user.profile_picture) }}" alt="My Profile Picture" style="width: 30px; height: 30px; border-radius: 50%; object-fit: cover; vertical-align: middle;">
+                            {% if current_user.profile_picture == 'default.jpg' %}
+                                <div class="profile-initials-small">
+                                    {{ current_user.get_initials() }}
+                                </div>
+                            {% else %}
+                                <img src="{{ url_for('static', filename='profile_pics/' + current_user.profile_picture) }}" alt="My Profile Picture" style="width: 30px; height: 30px; border-radius: 50%; object-fit: cover; vertical-align: middle;">
+                            {% endif %}
                         </a>
                     </li>
                 {% endif %}

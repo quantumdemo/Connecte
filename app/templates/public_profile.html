@@ -6,7 +6,13 @@
 
 {% block content %}
 <div class="profile-card" style="text-align: center;">
+    {% if user.profile_picture == 'default.jpg' %}
+    <div class="profile-initials-large">
+        {{ user.get_initials() }}
+    </div>
+    {% else %}
     <img src="{{ url_for('static', filename='profile_pics/' + user.profile_picture) }}" alt="Profile Picture" style="width: 150px; height: 150px; border-radius: 50%; object-fit: cover; margin-bottom: 20px;">
+    {% endif %}
     <h1>@{{ user.username }}</h1>
 
     {% if user.bio %}
